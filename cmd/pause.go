@@ -1,6 +1,5 @@
 /*
 Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
@@ -13,7 +12,7 @@ import (
 // pauseCmd represents the pause command
 var pauseCmd = &cobra.Command{
 	Use:   "pause",
-	Short: "A brief description of your command",
+	Short: "Pause current pomodoro",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
 

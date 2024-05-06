@@ -2,14 +2,15 @@
 
 ```bash
 pomodoro start
-pomodoro stop
+pomodoro start --set
+
+pomodoro pause
 pomodoro finish
+
 pomodoro break
 pomodoro break --long
-
-pomodoro start --set
-pomodoro break --set
 pomodoro break --long --set
+pomodoro break --set
 
 pomodoro --help
 pomodoro --v

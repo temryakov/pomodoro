@@ -1,6 +1,5 @@
 /*
 Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
@@ -13,7 +12,7 @@ import (
 // finishCmd represents the finish command
 var finishCmd = &cobra.Command{
 	Use:   "finish",
-	Short: "A brief description of your command",
+	Short: "Finish current pomodoro",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
 

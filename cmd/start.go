@@ -39,7 +39,7 @@ func RunPomodoro(cmd *cobra.Command, args []string) {
 	}()
 	duration := time.Duration(time.Second * 5)
 	pomodoro.SetTimerWithSelect(duration, selectCh)
-	fmt.Printf("\r\t⏳ Total spent time: %v minutes", timer)
+	fmt.Printf("\r\t⏳ Total spent time: %v minutes\n", timer)
 	log.Println("🍅 Finished! Print 'pomodoro break' to take a break.")
 	pomodoro.Sound()
 }

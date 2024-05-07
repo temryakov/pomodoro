@@ -6,6 +6,22 @@ import (
 	"time"
 )
 
+func SetTimerWithSelect(duration time.Duration, selectCh chan int) {
+	done := make(chan bool)
+	go func() {
+		SetTimer(duration)
+		done <- true
+	}()
+	select {
+	case m := <-selectCh:
+		if m == 1 {
+			return
+		}
+	case <-done:
+		return
+	}
+}
+
 func SetTimer(duration time.Duration) {
 	start_time := time.Now()
 	end_time := start_time.Add(duration)
@@ -16,7 +32,6 @@ func SetTimer(duration time.Duration) {
 
 	fmt.Print("\n")
 	fmt.Printf("\r\t⏳ %2d minutes %2d seconds", m, s)
-	fmt.Print("\r")
 
 	i := int64(1)
 	ticker1 := time.NewTicker(1 * time.Second)
@@ -28,12 +43,9 @@ func SetTimer(duration time.Duration) {
 		m = m.Mod(m, big.NewInt(60))
 
 		fmt.Printf("\r\t⏳ %2d minutes %2d seconds", m, s)
-		fmt.Print("\r")
-
 		if i > int64(duration/time.Second) {
 			ticker1.Stop()
-			break
+			return
 		}
 	}
-	fmt.Printf("\r\t⏳ Total spent time: 25 minutes\n")
 }

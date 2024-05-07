@@ -1,4 +1,4 @@
-package pomodoro
+package utils
 
 import (
 	"fmt"
@@ -14,7 +14,7 @@ func SetTimerWithSelect(duration time.Duration, selectCh chan int) {
 	}()
 	select {
 	case m := <-selectCh:
-		if m == 1 {
+		if m == StatusFinish {
 			return
 		}
 	case <-done:

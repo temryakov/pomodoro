@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func SetTimerWithSelect(duration time.Duration, selectCh chan int) {
+func SetTimerWithSelect(duration time.Duration, selectCh chan int) /*TODO: Implement return spent time value */ {
 	done := make(chan bool)
 	go func() {
 		SetTimer(duration)

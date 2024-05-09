@@ -13,7 +13,7 @@ import (
 type Break struct {
 	StartDescription  string
 	FinishDescription string
-	Duration          int //TODO: Fix Duration type to time.Duration
+	Duration          time.Duration
 }
 
 var breakCmd = &cobra.Command{
@@ -23,9 +23,9 @@ var breakCmd = &cobra.Command{
 	Run:   RunBreak,
 }
 
-func NewBreak(Duration int) Break {
+func NewBreak(Duration time.Duration) Break {
 	return Break{
-		StartDescription:  fmt.Sprintf("pomodoro: ☕️ Break has been started! it will take %v minutes. Have a good time!\n(In order to finish break, press key 1)\n", Duration),
+		StartDescription:  fmt.Sprintf("pomodoro: ☕️ Break has been started! it will take %v minutes. Have a good time!\n(In order to finish break, press key 1)\n", Duration.Minutes()),
 		FinishDescription: "\npomodoro: ☕️ It's time to get work! Print 'pomodoro start' to start new pomodoro.",
 		Duration:          Duration,
 	}
@@ -41,7 +41,7 @@ func (b Break) Start(selectCh chan int) {
 }
 
 func (p Break) Finish() {
-	// TODO: Make "spent int" argument to pass spent time
+	//TODO: Make "spent time.Duration" argument to pass spent time
 
 	fmt.Printf("\r\t⌛️ Total spent time: %v minutes\n", 5)
 	fmt.Println(p.FinishDescription)
@@ -49,19 +49,22 @@ func (p Break) Finish() {
 }
 
 func (b Break) Sound() {
-	cmd := exec.Command("afplay", fmt.Sprintf("/System/Library/Sounds/%v.aiff", "Blow"))
+	sound := "Blow" //TODO: Put into config
+	cmd := exec.Command("afplay", fmt.Sprintf("/System/Library/Sounds/%v.aiff", sound))
 	if err := cmd.Start(); err != nil {
 		log.Fatal(err)
 	}
 }
 
 func RunBreak(cmd *cobra.Command, args []string) {
-	timer := 5
-	br := NewBreak(timer)
+	//TODO: Put configtime into config
+	timeconfig := 5
+
+	duration := time.Duration(timeconfig) * time.Minute
+	br := NewBreak(duration)
 	selectCh := make(chan int)
 	br.Start(selectCh)
 
-	duration := time.Duration(time.Minute * 5)
 	utils.SetTimerWithSelect(duration, selectCh)
 	br.Finish()
 }

@@ -3,7 +3,7 @@ package domain
 type IStatus interface {
 	Start(chan int)
 	Sound()
-	GetFinishDescription() string
+	FinishDescription() string
 
 	// SelectOption() int
 }

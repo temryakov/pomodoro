@@ -12,7 +12,7 @@ import (
 
 type Break struct {
 	StartDescription  string
-	FinishDescription string
+	finishDescription string
 	Duration          time.Duration
 }
 
@@ -26,7 +26,7 @@ var breakCmd = &cobra.Command{
 func NewBreak(Duration time.Duration) Break {
 	return Break{
 		StartDescription:  fmt.Sprintf("pomodoro: ☕️ Break has been started! it will take %v minutes. Have a good time!\n(In order to finish break, press key 1)\n", Duration.Minutes()),
-		FinishDescription: "\npomodoro: ☕️ It's time to get work! Print 'pomodoro start' to start new pomodoro.",
+		finishDescription: "\npomodoro: ☕️ It's time to get work! Print 'pomodoro start' to start new pomodoro.",
 		Duration:          Duration,
 	}
 }
@@ -40,8 +40,8 @@ func (b Break) Start(selectCh chan int) {
 	}()
 }
 
-func (b Break) GetFinishDescription() string {
-	return b.FinishDescription
+func (b Break) FinishDescription() string {
+	return b.finishDescription
 }
 
 func (b Break) Sound() {

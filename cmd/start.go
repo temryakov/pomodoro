@@ -1,20 +1,12 @@
 package cmd
 
 import (
-	"fmt"
-	"log"
-	"os/exec"
+	"pomodoro/entities"
 	"pomodoro/utils"
 	"time"
 
 	"github.com/spf13/cobra"
 )
-
-type Pomodoro struct {
-	StartDescription  string
-	finishDescription string
-	Duration          time.Duration
-}
 
 var startCmd = &cobra.Command{
 	Use:   "start",
@@ -23,47 +15,17 @@ var startCmd = &cobra.Command{
 	Run:   RunPomodoro,
 }
 
-func NewPomodoro(Duration time.Duration) Pomodoro {
-	return Pomodoro{
-		StartDescription:  fmt.Sprintf("pomodoro: 🍅 Pomodoro has been started! it will take %v minutes. Don't forget to take a break.\n(In order to finish pomodoro, press key 1)\n", Duration.Minutes()),
-		finishDescription: "\npomodoro: 🍅 Finished! Print 'pomodoro break' to take a break.",
-		Duration:          Duration,
-	}
-}
-
-func (p Pomodoro) Start(selectCh chan int) {
-	fmt.Print(p.StartDescription)
-	go func() {
-		result := utils.SelectOption()
-		selectCh <- result
-		close(selectCh)
-	}()
-}
-
-func (p Pomodoro) FinishDescription() string {
-	return p.finishDescription
-}
-
-func (p Pomodoro) Sound() {
-	sound := "Submarine" //TODO: Put into config
-	cmd := exec.Command("afplay", fmt.Sprintf("/System/Library/Sounds/%v.aiff", sound))
-	if err := cmd.Start(); err != nil {
-		log.Fatal(err)
-	}
-}
-
 func RunPomodoro(cmd *cobra.Command, args []string) {
 	//TODO: Put configtime into config
-	configtime := 25
 
-	duration := time.Duration(configtime) * time.Minute
-	pomodoro := NewPomodoro(duration)
-
+	timeconfig := 25
+	duration := time.Duration(timeconfig) * time.Minute
 	selectCh := make(chan int)
-	pomodoro.Start(selectCh)
+	p := entities.NewPomodoro(duration)
 
+	entities.Start(p, selectCh)
 	utils.SetTimerWithSelect(duration, selectCh)
-	utils.Finish(pomodoro)
+	entities.Finish(p)
 }
 
 func init() {

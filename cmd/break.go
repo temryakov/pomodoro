@@ -1,20 +1,12 @@
 package cmd
 
 import (
-	"fmt"
-	"log"
-	"os/exec"
+	"pomodoro/entities"
 	"pomodoro/utils"
 	"time"
 
 	"github.com/spf13/cobra"
 )
-
-type Break struct {
-	StartDescription  string
-	finishDescription string
-	Duration          time.Duration
-}
 
 var breakCmd = &cobra.Command{
 	Use:   "break",
@@ -23,46 +15,17 @@ var breakCmd = &cobra.Command{
 	Run:   RunBreak,
 }
 
-func NewBreak(Duration time.Duration) Break {
-	return Break{
-		StartDescription:  fmt.Sprintf("pomodoro: ☕️ Break has been started! it will take %v minutes. Have a good time!\n(In order to finish break, press key 1)\n", Duration.Minutes()),
-		finishDescription: "\npomodoro: ☕️ It's time to get work! Print 'pomodoro start' to start new pomodoro.",
-		Duration:          Duration,
-	}
-}
-
-func (b Break) Start(selectCh chan int) {
-	fmt.Printf(b.StartDescription)
-	go func() {
-		result := utils.SelectOption()
-		selectCh <- result
-		close(selectCh)
-	}()
-}
-
-func (b Break) FinishDescription() string {
-	return b.finishDescription
-}
-
-func (b Break) Sound() {
-	sound := "Blow" //TODO: Put into config
-	cmd := exec.Command("afplay", fmt.Sprintf("/System/Library/Sounds/%v.aiff", sound))
-	if err := cmd.Start(); err != nil {
-		log.Fatal(err)
-	}
-}
-
 func RunBreak(cmd *cobra.Command, args []string) {
 	//TODO: Put configtime into config
+
 	timeconfig := 5
-
 	duration := time.Duration(timeconfig) * time.Minute
-	br := NewBreak(duration)
 	selectCh := make(chan int)
-	br.Start(selectCh)
+	br := entities.NewBreak(duration)
 
+	entities.Start(br, selectCh)
 	utils.SetTimerWithSelect(duration, selectCh)
-	utils.Finish(br)
+	entities.Finish(br)
 }
 
 func init() {

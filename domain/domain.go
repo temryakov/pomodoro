@@ -1,9 +1,9 @@
 package domain
 
-type IStatus interface {
-	Start(chan int)
-	Sound()
+type PomodoroBreaker interface {
+	StartDescription() string
 	FinishDescription() string
+	Sound()
 
 	// SelectOption() int
 }

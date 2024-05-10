@@ -40,12 +40,8 @@ func (p Pomodoro) Start(selectCh chan int) {
 	}()
 }
 
-func (p Pomodoro) Finish() {
-	//TODO: Make "spent time.Duration" argument to pass spent time
-
-	fmt.Printf("\r\t⌛️ Total spent time: %v minutes\n", 25)
-	fmt.Println(p.FinishDescription)
-	p.Sound()
+func (p Pomodoro) GetFinishDescription() string {
+	return p.FinishDescription
 }
 
 func (p Pomodoro) Sound() {
@@ -67,7 +63,7 @@ func RunPomodoro(cmd *cobra.Command, args []string) {
 	pomodoro.Start(selectCh)
 
 	utils.SetTimerWithSelect(duration, selectCh)
-	pomodoro.Finish()
+	utils.Finish(pomodoro)
 }
 
 func init() {

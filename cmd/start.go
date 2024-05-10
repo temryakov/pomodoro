@@ -12,7 +12,7 @@ import (
 
 type Pomodoro struct {
 	StartDescription  string
-	FinishDescription string
+	finishDescription string
 	Duration          time.Duration
 }
 
@@ -26,7 +26,7 @@ var startCmd = &cobra.Command{
 func NewPomodoro(Duration time.Duration) Pomodoro {
 	return Pomodoro{
 		StartDescription:  fmt.Sprintf("pomodoro: 🍅 Pomodoro has been started! it will take %v minutes. Don't forget to take a break.\n(In order to finish pomodoro, press key 1)\n", Duration.Minutes()),
-		FinishDescription: "\npomodoro: 🍅 Finished! Print 'pomodoro break' to take a break.",
+		finishDescription: "\npomodoro: 🍅 Finished! Print 'pomodoro break' to take a break.",
 		Duration:          Duration,
 	}
 }
@@ -40,8 +40,8 @@ func (p Pomodoro) Start(selectCh chan int) {
 	}()
 }
 
-func (p Pomodoro) GetFinishDescription() string {
-	return p.FinishDescription
+func (p Pomodoro) FinishDescription() string {
+	return p.finishDescription
 }
 
 func (p Pomodoro) Sound() {

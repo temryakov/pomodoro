@@ -62,7 +62,7 @@ func RunBreak(cmd *cobra.Command, args []string) {
 	br.Start(selectCh)
 
 	utils.SetTimerWithSelect(duration, selectCh)
-	Finish(br)
+	utils.Finish(br)
 }
 
 func init() {

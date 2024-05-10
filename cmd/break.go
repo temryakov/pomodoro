@@ -40,12 +40,8 @@ func (b Break) Start(selectCh chan int) {
 	}()
 }
 
-func (p Break) Finish() {
-	//TODO: Make "spent time.Duration" argument to pass spent time
-
-	fmt.Printf("\r\t⌛️ Total spent time: %v minutes\n", 5)
-	fmt.Println(p.FinishDescription)
-	p.Sound()
+func (b Break) GetFinishDescription() string {
+	return b.FinishDescription
 }
 
 func (b Break) Sound() {
@@ -66,7 +62,7 @@ func RunBreak(cmd *cobra.Command, args []string) {
 	br.Start(selectCh)
 
 	utils.SetTimerWithSelect(duration, selectCh)
-	br.Finish()
+	Finish(br)
 }
 
 func init() {

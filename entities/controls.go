@@ -13,7 +13,10 @@ func Start(pb domain.PomodoroBreaker) {
 func Finish(pb domain.PomodoroBreaker, spent time.Duration) {
 	//TODO: Make "spent time.Duration" argument to pass spent time
 
-	fmt.Printf("\r\t⌛️ Total spent time: %2d minutes\n", int(spent.Minutes()))
+	m := int(spent.Minutes())
+	s := int(spent.Seconds()) - m*60
+
+	fmt.Printf("\r\t⌛️ Total spent time: %2d minutes %2d seconds\n", m, s)
 	fmt.Println(pb.FinishDescription())
 	pb.Sound()
 }

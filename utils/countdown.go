@@ -4,28 +4,20 @@ import (
 	"context"
 	"fmt"
 	"math/big"
-	"sync"
 	"time"
 )
 
-func SetTimerWithContext(c context.Context, duration time.Duration) time.Duration /*TODO: Implement return spent time value */ {
+func SetTimerWithContext(c context.Context, duration time.Duration) time.Duration {
 	var (
 		ctx, cancel = context.WithCancel(c)
-		wg          = sync.WaitGroup{}
-		start       = time.Now()
+		start       = time.Now() // Start count spent time
 	)
 	defer cancel()
-	wg.Add(1)
-	go func() {
-		SetTimer(ctx, duration)
-		wg.Done()
-		cancel()
-	}()
 	go func() {
 		SelectOption(ctx)
 		cancel()
 	}()
-	wg.Wait()
+	SetTimer(ctx, duration)
 	return time.Since(start)
 }
 

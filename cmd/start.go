@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"context"
 	"pomodoro/entities"
 	"pomodoro/utils"
 	"time"
@@ -20,12 +21,12 @@ func RunPomodoro(cmd *cobra.Command, args []string) {
 
 	timeconfig := 25
 	duration := time.Duration(timeconfig) * time.Minute
-	selectCh := make(chan int)
+	ctx := context.Background()
 	p := entities.NewPomodoro(duration)
 
-	entities.Start(p, selectCh)
-	utils.SetTimerWithSelect(duration, selectCh)
-	entities.Finish(p)
+	entities.Start(p)
+	spent := utils.SetTimerWithContext(ctx, duration)
+	entities.Finish(p, spent)
 }
 
 func init() {

@@ -3,22 +3,17 @@ package entities
 import (
 	"fmt"
 	"pomodoro/domain"
-	"pomodoro/utils"
+	"time"
 )
 
-func Start(pb domain.PomodoroBreaker, selectCh chan int) {
+func Start(pb domain.PomodoroBreaker) {
 	fmt.Print(pb.StartDescription())
-	go func() {
-		result := utils.SelectOption()
-		selectCh <- result
-		close(selectCh)
-	}()
 }
 
-func Finish(pb domain.PomodoroBreaker) {
+func Finish(pb domain.PomodoroBreaker, spent time.Duration) {
 	//TODO: Make "spent time.Duration" argument to pass spent time
 
-	fmt.Printf("\r\t⌛️ Total spent time: %v minutes\n", 25)
+	fmt.Printf("\r\t⌛️ Total spent time: %2d minutes %2d seconds\n", int(spent.Minutes()), int(spent.Seconds()))
 	fmt.Println(pb.FinishDescription())
 	pb.Sound()
 }

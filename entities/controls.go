@@ -11,8 +11,6 @@ func Start(pb domain.PomodoroBreaker) {
 }
 
 func Finish(pb domain.PomodoroBreaker, spent time.Duration) {
-	//TODO: Make "spent time.Duration" argument to pass spent time
-
 	m := int(spent.Minutes())
 	s := int(spent.Seconds()) - m*60
 

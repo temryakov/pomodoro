@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"context"
 	"pomodoro/entities"
 	"pomodoro/utils"
 	"time"
@@ -20,12 +21,12 @@ func RunBreak(cmd *cobra.Command, args []string) {
 
 	timeconfig := 5
 	duration := time.Duration(timeconfig) * time.Minute
-	selectCh := make(chan int)
+	ctx := context.Background()
 	br := entities.NewBreak(duration)
 
-	entities.Start(br, selectCh)
-	utils.SetTimerWithSelect(duration, selectCh)
-	entities.Finish(br)
+	entities.Start(br)
+	spent := utils.SetTimerWithContext(ctx, duration)
+	entities.Finish(br, spent)
 }
 
 func init() {

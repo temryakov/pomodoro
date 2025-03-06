@@ -2,16 +2,12 @@
 
 ```bash
 pomodoro start
-pomodoro start --set
-
-pomodoro pause
-pomodoro finish
+pomodoro start -d, --duration int   Time duration of pomodoro (default 25)
+pomodoro start -s, --set int Default set time of pomodoro (default 25)
 
 pomodoro break
-pomodoro break --long
-pomodoro break --long --set
-pomodoro break --set
+pomodoro break  -d, --duration int   Time duration of break (default 5)
+pomodoro break -s, --set int Default set time of break (default 5)
 
 pomodoro --help
-pomodoro --v
 ```

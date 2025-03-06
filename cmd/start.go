@@ -20,7 +20,8 @@ var startCmd = &cobra.Command{
 func RunPomodoro(cmd *cobra.Command, args []string) {
 	//TODO: Put configtime into config
 
-	timeconfig := 25
+	timeconfig, _ := cmd.Flags().GetInt("duration")
+
 	duration := time.Duration(timeconfig) * time.Minute
 	ctx := context.Background()
 	p := entities.NewPomodoro(duration)
@@ -32,4 +33,5 @@ func RunPomodoro(cmd *cobra.Command, args []string) {
 
 func init() {
 	rootCmd.AddCommand(startCmd)
+	startCmd.Flags().IntP("duration", "d", 25, "Time duration of pomodoro")
 }

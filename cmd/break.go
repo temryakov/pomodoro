@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"context"
+	"pomodoro/constants"
 	"pomodoro/entities"
 	"pomodoro/service"
 	"pomodoro/utils"
@@ -11,9 +12,9 @@ import (
 )
 
 var breakCmd = &cobra.Command{
-	Use:   "break",
-	Short: "Start new break",
-	Long:  "A longer description",
+	Use:   constants.BreakUse,
+	Short: constants.BreakShort,
+	Long:  constants.BreakLong,
 	Run:   RunBreak,
 }
 

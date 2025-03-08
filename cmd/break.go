@@ -20,7 +20,8 @@ var breakCmd = &cobra.Command{
 func RunBreak(cmd *cobra.Command, args []string) {
 	//TODO: Put configtime into config
 
-	timeconfig := 5
+	timeconfig, _ := cmd.Flags().GetInt("duration")
+
 	duration := time.Duration(timeconfig) * time.Minute
 	ctx := context.Background()
 	br := entities.NewBreak(duration)
@@ -32,4 +33,5 @@ func RunBreak(cmd *cobra.Command, args []string) {
 
 func init() {
 	rootCmd.AddCommand(breakCmd)
+	breakCmd.Flags().IntP("duration", "d", 5, "Time duration of break")
 }

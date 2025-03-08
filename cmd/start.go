@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"context"
+	"pomodoro/constants"
 	"pomodoro/entities"
 	"pomodoro/service"
 	"pomodoro/utils"
@@ -11,9 +12,9 @@ import (
 )
 
 var startCmd = &cobra.Command{
-	Use:   "start",
-	Short: "Start new pomodoro",
-	Long:  "A longer description",
+	Use:   constants.StartUse,
+	Short: constants.StartShort,
+	Long:  constants.StartLong,
 	Run:   RunPomodoro,
 }
 

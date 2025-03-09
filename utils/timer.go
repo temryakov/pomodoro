@@ -3,6 +3,7 @@ package utils
 import (
 	"context"
 	"fmt"
+	"pomodoro/constants"
 	"time"
 )
 
@@ -27,6 +28,9 @@ func SetTimerWithContext(c context.Context, duration time.Duration) time.Duratio
 func SetTimer(ctx context.Context, duration time.Duration) {
 	remaining := time.Now().Add(duration)
 
+	tr := getTimeRemaining(remaining)
+	fmt.Printf(constants.Countdown, tr.minutes, tr.seconds)
+
 	for range time.NewTicker(1 * time.Second).C {
 		select {
 		case <-ctx.Done():
@@ -36,7 +40,7 @@ func SetTimer(ctx context.Context, duration time.Duration) {
 			if tr.total <= 0 {
 				break
 			}
-			fmt.Printf("\r\t⏳ %2d minutes %2d seconds", tr.minutes, tr.seconds)
+			fmt.Printf(constants.Countdown, tr.minutes, tr.seconds)
 		}
 	}
 }

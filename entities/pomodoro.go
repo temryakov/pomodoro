@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os/exec"
+	"pomodoro/constants"
 	"time"
 )
 
@@ -15,8 +16,8 @@ type Pomodoro struct {
 
 func NewPomodoro(Duration time.Duration) Pomodoro {
 	return Pomodoro{
-		startDescription:  fmt.Sprintf("pomodoro: 🍅 Pomodoro has been started! it will take %v minutes. Don't forget to take a break.\n(In order to finish pomodoro, press key 1)\n", Duration.Minutes()),
-		finishDescription: "\npomodoro: 🍅 Finished! Print 'pomodoro break' to take a break.",
+		startDescription:  fmt.Sprintf(constants.PomodoroStartDesc, Duration.Minutes()),
+		finishDescription: constants.PomodoroFinishDesc,
 		duration:          Duration,
 	}
 }

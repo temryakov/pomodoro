@@ -21,9 +21,15 @@ const (
 )
 
 const (
-	PomodoroStartDesc  = "pomodoro: 🍅 Pomodoro has been started! it will take %v minutes. Don't forget to take a break.\n(In order to finish pomodoro, press key 1)\n\n"
+	PomodoroStartDesc  = "pomodoro: 🍅 Pomodoro has been started! it will take %v minutes. Don't forget to take a break.\n(In order to finish pomodoro, press key  or press 0 to pause)\n\n"
 	PomodoroFinishDesc = "\npomodoro: 🍅 Finished! Print 'pomodoro break' to take a break."
-	BreakStartDesc     = "pomodoro: ☕️ Break has been started! it will take %v minutes. Have a good time!\n(In order to finish break, press key 1)\n\n"
-	BreakFinishDesc    = "\npomodoro: ☕️ It's time to get work! Print 'pomodoro start' to start new pomodoro."
-	Countdown          = "\r\t⏳ %2d minutes %2d seconds"
+
+	BreakStartDesc  = "pomodoro: ☕️ Break has been started! it will take %v minutes. Have a good time!\n(In order to finish break, press key 1 or press 0 to pause)\n\n"
+	BreakFinishDesc = "\npomodoro: ☕️ It's time to get work! Print 'pomodoro start' to start new pomodoro."
+
+	Countdown        = "\r\t⏳ %2d minutes %2d seconds"
+	FinishingProcess = "\r\t⏳ Finishing..."
+	PausingProcess   = "\r\t⛔️ Pause."
+
+	ErasingString = "\r\t                                    "
 )

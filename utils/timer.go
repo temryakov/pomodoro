@@ -14,46 +14,49 @@ type countdown struct {
 func SetTimerWithContext(c context.Context, duration time.Duration) time.Duration {
 	var (
 		ctx, cancel = context.WithCancel(c)
-		start       = time.Now() // Start count spent time
+		pauseCh     = make(chan struct{})
 	)
 	defer cancel()
 	go func() {
-		SelectOption(ctx)
+		SelectOption(ctx, pauseCh)
 		cancel()
 	}()
-	SetTimer(ctx, duration)
-	// Temporary workaround to avoid losing a second in the result.
-	res := time.Since(start) + time.Duration(time.Second)
-	return res
+	return duration - SetTimer(ctx, duration, pauseCh)
 }
 
-func SetTimer(ctx context.Context, duration time.Duration) {
-	remaining := time.Now().Add(duration)
-
-	// Retrieve the current remaining time, accounting for delays in execution related to
-	//
-	tr := getTimeRemaining(remaining)
+func SetTimer(ctx context.Context, duration time.Duration, pauseCh chan struct{}) time.Duration {
+	var pause bool
+	// Retrieve the current remaining time, accounting for delays in execution
+	// related to non-instant work of Ticker.
+	tr := getTimeRemaining(duration)
 	fmt.Printf(constants.Countdown, tr.minutes, tr.seconds)
 
 	for range time.NewTicker(1 * time.Second).C {
 		select {
+		case <-pauseCh:
+			pause = true
+			duration += time.Second
 		case <-ctx.Done():
-			return
+			return duration
 		default:
-			tr := getTimeRemaining(remaining)
+			if pause {
+				<-pauseCh
+				pause = false
+			}
+			duration -= time.Second
+			tr := getTimeRemaining(duration)
 			if tr.total <= 0 {
-				return
+				return duration
 			}
 			fmt.Printf(constants.Countdown, tr.minutes, tr.seconds)
 		}
 	}
+	return duration
 }
 
-func getTimeRemaining(t time.Time) countdown {
-	current := time.Now()
-	diff := t.Sub(current)
+func getTimeRemaining(t time.Duration) countdown {
 
-	total := int(diff.Seconds())
+	total := int(t.Seconds())
 
 	return countdown{
 		total:   total,

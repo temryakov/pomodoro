@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"context"
 	"fmt"
 	"pomodoro/constants"
 	"time"
@@ -11,47 +10,58 @@ type countdown struct {
 	total, minutes, seconds int
 }
 
-func SetTimerWithContext(c context.Context, duration time.Duration) time.Duration {
-	var (
-		ctx, cancel = context.WithCancel(c)
-		pauseCh     = make(chan struct{})
-	)
-	defer cancel()
-	go func() {
-		SelectOption(ctx, pauseCh)
-		cancel()
-	}()
-	return duration - SetTimer(ctx, duration, pauseCh)
+type Timer struct {
+	Finish   chan struct{}
+	Pause    chan struct{}
+	Duration time.Duration
 }
 
-func SetTimer(ctx context.Context, duration time.Duration, pauseCh chan struct{}) time.Duration {
+func SetTimerWithContext(duration time.Duration) time.Duration {
+
+	timer := &Timer{
+		Finish:   make(chan struct{}),
+		Pause:    make(chan struct{}),
+		Duration: duration,
+	}
+
+	go func() {
+		timer.SelectOption()
+		timer.Finish <- struct{}{}
+	}()
+	return duration - timer.SetTimer()
+}
+
+func (t *Timer) SetTimer() time.Duration {
+	// Is pause right now?
 	var pause bool
+
 	// Retrieve the current remaining time, accounting for delays in execution
 	// related to non-instant work of Ticker.
-	tr := getTimeRemaining(duration)
+	tr := getTimeRemaining(t.Duration)
 	fmt.Printf(constants.Countdown, tr.minutes, tr.seconds)
 
 	for range time.NewTicker(1 * time.Second).C {
 		select {
-		case <-pauseCh:
+		case <-t.Pause:
 			pause = true
-			duration += time.Second
-		case <-ctx.Done():
-			return duration
+			// A little workaround related to losing second during pause executing
+			t.Duration += time.Second
+		case <-t.Finish:
+			return t.Duration
 		default:
 			if pause {
-				<-pauseCh
+				<-t.Pause
 				pause = false
 			}
-			duration -= time.Second
-			tr := getTimeRemaining(duration)
+			t.Duration -= time.Second
+			tr := getTimeRemaining(t.Duration)
 			if tr.total <= 0 {
-				return duration
+				return t.Duration
 			}
 			fmt.Printf(constants.Countdown, tr.minutes, tr.seconds)
 		}
 	}
-	return duration
+	return t.Duration
 }
 
 func getTimeRemaining(t time.Duration) countdown {

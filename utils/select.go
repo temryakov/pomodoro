@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"context"
 	"fmt"
 	"pomodoro/constants"
 
@@ -13,7 +12,7 @@ var (
 	StatusFinish int = 1
 )
 
-func SelectOption(ctx context.Context, pauseCh chan struct{}) {
+func (t *Timer) SelectOption() {
 	err := keyboard.Open()
 	if err != nil {
 		panic(err)
@@ -21,7 +20,7 @@ func SelectOption(ctx context.Context, pauseCh chan struct{}) {
 	defer keyboard.Close()
 	for {
 		select {
-		case <-ctx.Done():
+		case <-t.Finish:
 			fmt.Println("SelectOption ctx.Done")
 			return
 		default:
@@ -32,13 +31,13 @@ func SelectOption(ctx context.Context, pauseCh chan struct{}) {
 			if int(char-'0') == StatusFinish {
 				fmt.Print(constants.ErasingString)
 				fmt.Print(constants.FinishingProcess)
-				pauseCh <- struct{}{}
+				t.Pause <- struct{}{}
 				return
 			}
 			if int(char-'0') == StatusPause {
 				fmt.Print(constants.ErasingString)
 				fmt.Print(constants.PausingProcess)
-				pauseCh <- struct{}{}
+				t.Pause <- struct{}{}
 				continue
 			}
 		}

@@ -28,7 +28,8 @@ func SetTimerWithContext(c context.Context, duration time.Duration) time.Duratio
 func SetTimer(ctx context.Context, duration time.Duration) {
 	remaining := time.Now().Add(duration)
 
-	// Retrieve the current remaining time, accounting for any potential delays in execution.
+	// Retrieve the current remaining time, accounting for delays in execution related to
+	//
 	tr := getTimeRemaining(remaining)
 	fmt.Printf(constants.Countdown, tr.minutes, tr.seconds)
 
@@ -39,7 +40,7 @@ func SetTimer(ctx context.Context, duration time.Duration) {
 		default:
 			tr := getTimeRemaining(remaining)
 			if tr.total <= 0 {
-				break
+				return
 			}
 			fmt.Printf(constants.Countdown, tr.minutes, tr.seconds)
 		}

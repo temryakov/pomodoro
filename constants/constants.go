@@ -29,7 +29,7 @@ const (
 
 	Countdown        = "\r\t⏳ %2d minutes %2d seconds"
 	FinishingProcess = "\r\t⏳ Finishing..."
-	PausingProcess   = "\r\t⛔️ Pause."
+	PausingProcess   = "\r\t💤 Pause."
 
 	ErasingString = "\r\t                                    "
 )

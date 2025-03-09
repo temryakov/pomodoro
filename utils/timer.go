@@ -22,7 +22,9 @@ func SetTimerWithContext(c context.Context, duration time.Duration) time.Duratio
 		cancel()
 	}()
 	SetTimer(ctx, duration)
-	return time.Since(start)
+	// Temporary workaround to avoid losing a second in the result.
+	res := time.Since(start) + time.Duration(time.Second)
+	return res
 }
 
 func SetTimer(ctx context.Context, duration time.Duration) {

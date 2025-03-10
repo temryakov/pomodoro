@@ -17,6 +17,7 @@ type Timer struct {
 }
 
 func SetTimerWithContext(duration time.Duration) time.Duration {
+	// A ittle workaround to fix lost second in total spent time
 	duration += time.Second
 
 	timer := &Timer{

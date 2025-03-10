@@ -21,7 +21,6 @@ func (t *Timer) SelectOption() {
 	for {
 		select {
 		case <-t.Finish:
-			fmt.Println("SelectOption ctx.Done")
 			return
 		default:
 			char, _, err := keyboard.GetSingleKey()

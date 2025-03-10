@@ -32,7 +32,7 @@ func (b Break) FinishDescription() string {
 
 func (b Break) Sound() {
 	sound := "Blow" //TODO: Put into config
-	cmd := exec.Command("afplay", fmt.Sprintf("/System/Library/Sounds/%v.aiff", sound))
+	cmd := exec.Command("afplay", fmt.Sprintf("./sounds/%v.aiff", sound))
 	if err := cmd.Start(); err != nil {
 		log.Fatal(err)
 	}

@@ -7,9 +7,9 @@ import (
 	"github.com/eiannone/keyboard"
 )
 
-var (
-	StatusPause  int = 0
-	StatusFinish int = 1
+const (
+	StatusPause = iota
+	StatusFinish
 )
 
 func (t *Timer) SelectOption() {

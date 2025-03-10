@@ -20,5 +20,8 @@ func GetTimeSpentString(spent time.Duration) string {
 		ss = fmt.Sprintf("%2d seconds ", s)
 	}
 
+	if ms == "" && ss == "" {
+		return "\r\t⌛️ Done! \n"
+	}
 	return header + ms + ss + "\n"
 }

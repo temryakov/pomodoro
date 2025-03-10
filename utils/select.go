@@ -32,6 +32,7 @@ func (t *Timer) SelectOption() {
 				fmt.Print(constants.ErasingString)
 				fmt.Print(constants.FinishingProcess)
 				t.Pause <- struct{}{}
+				t.Finish <- struct{}{}
 				return
 			}
 			if int(char-'0') == StatusPause {

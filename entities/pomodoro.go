@@ -32,7 +32,7 @@ func (p Pomodoro) FinishDescription() string {
 
 func (p Pomodoro) Sound() {
 	sound := "Submarine" //TODO: Put into config
-	cmd := exec.Command("afplay", fmt.Sprintf("/System/Library/Sounds/%v.aiff", sound))
+	cmd := exec.Command("afplay", fmt.Sprintf("./sounds/%v.aiff", sound))
 	if err := cmd.Start(); err != nil {
 		log.Fatal(err)
 	}

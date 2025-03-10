@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"context"
 	"fmt"
 	"pomodoro/constants"
 	"time"
@@ -11,49 +10,51 @@ type countdown struct {
 	total, minutes, seconds int
 }
 
-func SetTimerWithContext(c context.Context, duration time.Duration) time.Duration {
-	var (
-		ctx, cancel = context.WithCancel(c)
-		start       = time.Now() // Start count spent time
-	)
-	defer cancel()
-	go func() {
-		SelectOption(ctx)
-		cancel()
-	}()
-	SetTimer(ctx, duration)
-	// Temporary workaround to avoid losing a second in the result.
-	res := time.Since(start) + time.Duration(time.Second)
-	return res
+type Timer struct {
+	Finish   chan struct{}
+	Pause    chan struct{}
+	Duration time.Duration
 }
 
-func SetTimer(ctx context.Context, duration time.Duration) {
-	remaining := time.Now().Add(duration)
+func SetTimerWithContext(duration time.Duration) time.Duration {
+	duration += time.Second
 
-	// Retrieve the current remaining time, accounting for delays in execution related to
-	//
-	tr := getTimeRemaining(remaining)
-	fmt.Printf(constants.Countdown, tr.minutes, tr.seconds)
+	timer := &Timer{
+		Finish:   make(chan struct{}),
+		Pause:    make(chan struct{}),
+		Duration: duration,
+	}
 
-	for range time.NewTicker(1 * time.Second).C {
+	go func() {
+		timer.SelectOption()
+		timer.Finish <- struct{}{}
+	}()
+	return duration - timer.SetTimer()
+}
+
+func (t *Timer) SetTimer() time.Duration {
+
+	for range time.NewTicker(1 * time.Millisecond).C {
 		select {
-		case <-ctx.Done():
-			return
+		case <-t.Pause:
+			<-t.Pause
+		case <-t.Finish:
+			return t.Duration
 		default:
-			tr := getTimeRemaining(remaining)
+			tr := getTimeRemaining(t.Duration)
 			if tr.total <= 0 {
-				return
+				return t.Duration
 			}
+			t.Duration -= time.Millisecond
 			fmt.Printf(constants.Countdown, tr.minutes, tr.seconds)
 		}
 	}
+	return t.Duration
 }
 
-func getTimeRemaining(t time.Time) countdown {
-	current := time.Now()
-	diff := t.Sub(current)
+func getTimeRemaining(t time.Duration) countdown {
 
-	total := int(diff.Seconds())
+	total := int(t.Seconds())
 
 	return countdown{
 		total:   total,

@@ -1,8 +1,8 @@
 package utils
 
 import (
-	"context"
 	"fmt"
+	"pomodoro/constants"
 
 	"github.com/eiannone/keyboard"
 )
@@ -12,7 +12,7 @@ var (
 	StatusFinish int = 1
 )
 
-func SelectOption(ctx context.Context) {
+func (t *Timer) SelectOption() {
 	err := keyboard.Open()
 	if err != nil {
 		panic(err)
@@ -20,7 +20,7 @@ func SelectOption(ctx context.Context) {
 	defer keyboard.Close()
 	for {
 		select {
-		case <-ctx.Done():
+		case <-t.Finish:
 			fmt.Println("SelectOption ctx.Done")
 			return
 		default:
@@ -29,8 +29,17 @@ func SelectOption(ctx context.Context) {
 				panic(err)
 			}
 			if int(char-'0') == StatusFinish {
-				fmt.Print("\r\t⏳ Finishing...         ")
+				fmt.Print(constants.ErasingString)
+				fmt.Print(constants.FinishingProcess)
+				t.Pause <- struct{}{}
+				t.Finish <- struct{}{}
 				return
+			}
+			if int(char-'0') == StatusPause {
+				fmt.Print(constants.ErasingString)
+				fmt.Print(constants.PausingProcess)
+				t.Pause <- struct{}{}
+				continue
 			}
 		}
 	}

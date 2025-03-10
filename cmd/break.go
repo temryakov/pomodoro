@@ -1,9 +1,9 @@
 package cmd
 
 import (
+	"fmt"
 	"pomodoro/constants"
 	"pomodoro/entities"
-	"pomodoro/service"
 	"pomodoro/utils"
 	"time"
 
@@ -25,9 +25,13 @@ func RunBreak(cmd *cobra.Command, args []string) {
 	duration := time.Duration(timeconfig) * time.Minute
 	br := entities.NewBreak(duration)
 
-	service.Start(br)
+	fmt.Print(br.StartDescription())
 	spent := utils.SetTimerWithContext(duration)
-	service.Finish(br, spent)
+
+	fmt.Print(constants.ErasingString)
+	fmt.Print(utils.GetTimeSpentString(spent))
+	fmt.Println(br.FinishDescription())
+	br.Sound()
 }
 
 func init() {

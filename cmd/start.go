@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/temryakov/pomodoro-cli/constants"
-	"github.com/temryakov/pomodoro-cli/entities"
-	"github.com/temryakov/pomodoro-cli/utils"
+	"github.com/temryakov/pomodoro/constants"
+	"github.com/temryakov/pomodoro/entities"
+	"github.com/temryakov/pomodoro/utils"
 
 	"github.com/spf13/cobra"
 )

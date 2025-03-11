@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/temryakov/pomodoro-cli/constants"
+	"github.com/temryakov/pomodoro/constants"
 )
 
 type countdown struct {

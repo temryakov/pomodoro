@@ -3,7 +3,7 @@ package utils
 import (
 	"fmt"
 
-	"github.com/temryakov/pomodoro-cli/constants"
+	"github.com/temryakov/pomodoro/constants"
 
 	"github.com/eiannone/keyboard"
 )

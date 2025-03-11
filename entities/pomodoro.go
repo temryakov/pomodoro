@@ -2,9 +2,10 @@ package entities
 
 import (
 	"fmt"
-	"pomodoro/constants"
-	"pomodoro/utils"
 	"time"
+
+	"github.com/temryakov/pomodoro-cli/constants"
+	"github.com/temryakov/pomodoro-cli/utils"
 )
 
 type Pomodoro struct {

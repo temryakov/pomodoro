@@ -2,10 +2,11 @@ package cmd
 
 import (
 	"fmt"
-	"pomodoro/constants"
-	"pomodoro/entities"
-	"pomodoro/utils"
 	"time"
+
+	"github.com/temryakov/pomodoro-cli/constants"
+	"github.com/temryakov/pomodoro-cli/entities"
+	"github.com/temryakov/pomodoro-cli/utils"
 
 	"github.com/spf13/cobra"
 )

@@ -2,8 +2,9 @@ package utils
 
 import (
 	"fmt"
-	"pomodoro/constants"
 	"time"
+
+	"github.com/temryakov/pomodoro-cli/constants"
 )
 
 type countdown struct {

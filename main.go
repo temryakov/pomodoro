@@ -1,10 +1,9 @@
 /*
 Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-
 */
 package main
 
-import "pomodoro/cmd"
+import "github.com/temryakov/pomodoro-cli/cmd"
 
 func main() {
 	cmd.Execute()

@@ -2,8 +2,6 @@ package entities
 
 import (
 	"fmt"
-	"log"
-	"os/exec"
 	"pomodoro/constants"
 	"pomodoro/utils"
 	"time"
@@ -13,6 +11,7 @@ type Pomodoro struct {
 	startDescription  string
 	finishDescription string
 	duration          time.Duration
+	sound             string
 }
 
 func NewPomodoro(Duration time.Duration) Pomodoro {
@@ -20,6 +19,7 @@ func NewPomodoro(Duration time.Duration) Pomodoro {
 		startDescription:  fmt.Sprintf(constants.PomodoroStartDesc, Duration.Minutes(), utils.StatusPause, utils.StatusFinish),
 		finishDescription: constants.PomodoroFinishDesc,
 		duration:          Duration,
+		sound:             "Submarine", // TODO: put into constants
 	}
 }
 
@@ -32,9 +32,5 @@ func (p Pomodoro) FinishDescription() string {
 }
 
 func (p Pomodoro) Sound() {
-	sound := "Submarine" //TODO: Put into config
-	cmd := exec.Command("afplay", fmt.Sprintf("./sounds/%v.aiff", sound))
-	if err := cmd.Start(); err != nil {
-		log.Fatal(err)
-	}
+	utils.ExecSound(p.sound)
 }

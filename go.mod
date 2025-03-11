@@ -1,4 +1,4 @@
-module github.com/temryakov/pomodoro-cli
+module github.com/temryakov/pomodoro
 
 go 1.24
 

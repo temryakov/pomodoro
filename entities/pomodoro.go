@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/temryakov/pomodoro-cli/constants"
-	"github.com/temryakov/pomodoro-cli/utils"
+	"github.com/temryakov/pomodoro/constants"
+	"github.com/temryakov/pomodoro/utils"
 )
 
 type Pomodoro struct {

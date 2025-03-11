@@ -11,13 +11,17 @@ Take more time to your life.`
 const (
 	StartUse   = "start"
 	StartShort = "Start new pomodoro"
-	StartLong  = "A longer description"
+	StartLong  = `The pomodoro start command initiates a Pomodoro session, which is typically 
+a focused work period lasting 25 minutes. This command is designed to help you concentrate on your tasks 
+without distractions. When you run this command, the timer begins, and you can fully immerse yourself in your work.`
 )
 
 const (
 	BreakUse   = "break"
 	BreakShort = "Start new break"
-	BreakLong  = "A longer description"
+	BreakLong  = `The pomodoro break command is used to take a short break after completing a Pomodoro session. 
+Typically, this break lasts for 5 minutes, allowing you to recharge before starting your next work session. 
+This command encourages you to step away from your work, stretch, or relax for a moment, which can help maintain productivity over time.`
 )
 
 const (

@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	StatusPause = iota
+	StatusPause = iota + 1
 	StatusFinish
 )
 

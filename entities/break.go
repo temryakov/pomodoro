@@ -5,6 +5,7 @@ import (
 	"log"
 	"os/exec"
 	"pomodoro/constants"
+	"pomodoro/utils"
 	"time"
 )
 
@@ -16,7 +17,7 @@ type Break struct {
 
 func NewBreak(Duration time.Duration) Break {
 	return Break{
-		startDescription:  fmt.Sprintf(constants.BreakStartDesc, Duration.Minutes()),
+		startDescription:  fmt.Sprintf(constants.BreakStartDesc, Duration.Minutes(), utils.StatusPause, utils.StatusFinish),
 		finishDescription: constants.BreakFinishDesc,
 		duration:          Duration,
 	}

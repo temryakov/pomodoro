@@ -18,7 +18,6 @@ var startCmd = &cobra.Command{
 }
 
 func RunPomodoro(cmd *cobra.Command, args []string) {
-	//TODO: Put configtime into config
 
 	timeconfig, _ := cmd.Flags().GetInt("duration")
 
@@ -36,5 +35,7 @@ func RunPomodoro(cmd *cobra.Command, args []string) {
 
 func init() {
 	rootCmd.AddCommand(startCmd)
+
+	//TODO: Put default time into config
 	startCmd.Flags().IntP("duration", "d", 25, "Time duration of pomodoro")
 }

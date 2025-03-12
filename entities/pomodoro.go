@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/temryakov/pomodoro/app"
 	"github.com/temryakov/pomodoro/constants"
 	"github.com/temryakov/pomodoro/domain"
-	"github.com/temryakov/pomodoro/utils"
 )
 
 type Pomodoro struct {
@@ -20,7 +20,7 @@ type Pomodoro struct {
 
 func NewPomodoro(Duration time.Duration /*, repository domain.Repository */) Pomodoro {
 	return Pomodoro{
-		startDescription:  fmt.Sprintf(constants.PomodoroStartDesc, Duration.Minutes(), utils.StatusPause, utils.StatusFinish),
+		startDescription:  fmt.Sprintf(constants.PomodoroStartDesc, Duration.Minutes(), app.StatusPause, app.StatusFinish),
 		finishDescription: constants.PomodoroFinishDesc,
 		duration:          Duration,
 		sound:             "Submarine", // TODO: put into constants
@@ -37,7 +37,7 @@ func (p Pomodoro) FinishDescription() string {
 }
 
 func (p Pomodoro) Sound() {
-	utils.ExecSound(p.sound)
+	app.ExecSound(p.sound)
 }
 
 func (p Pomodoro) SaveHistory(duration time.Duration) {

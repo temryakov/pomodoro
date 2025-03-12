@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/temryakov/pomodoro/app"
 	"github.com/temryakov/pomodoro/constants"
-	"github.com/temryakov/pomodoro/utils"
 )
 
 type Break struct {
@@ -17,7 +17,7 @@ type Break struct {
 
 func NewBreak(Duration time.Duration) Break {
 	return Break{
-		startDescription:  fmt.Sprintf(constants.BreakStartDesc, Duration.Minutes(), utils.StatusPause, utils.StatusFinish),
+		startDescription:  fmt.Sprintf(constants.BreakStartDesc, Duration.Minutes(), app.StatusPause, app.StatusFinish),
 		finishDescription: constants.BreakFinishDesc,
 		duration:          Duration,
 		sound:             "Blow", // TODO: put in constants
@@ -33,5 +33,5 @@ func (b Break) FinishDescription() string {
 }
 
 func (b Break) Sound() {
-	utils.ExecSound(b.sound)
+	app.ExecSound(b.sound)
 }

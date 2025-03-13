@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"os"
 
+	"path/filepath"
+
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -33,15 +35,15 @@ func buildPath() (string, error) {
 	if err != nil {
 		panic(err)
 	}
-	dirname += "/.pomodoro"
-
+	dirname = filepath.Join(dirname, ".pomodoro")
 	if _, err := os.Stat(dirname); os.IsNotExist(err) {
-		err := os.Mkdir(dirname, os.ModePerm)
+		err = os.Mkdir(dirname, 0755)
 		if err != nil {
 			panic(err)
 		}
 	}
-	return fmt.Sprintf("%s/.pomodoro/store.db", dirname), nil
+	fmt.Println(dirname)
+	return fmt.Sprintf("%s/store.db", dirname), nil
 }
 
 func createTable(db *sql.DB) (sql.Result, error) {

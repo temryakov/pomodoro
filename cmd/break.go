@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/temryakov/pomodoro/app"
 	"github.com/temryakov/pomodoro/constants"
 	"github.com/temryakov/pomodoro/entities"
-	"github.com/temryakov/pomodoro/utils"
 
 	"github.com/spf13/cobra"
 )
@@ -27,10 +27,10 @@ func RunBreak(cmd *cobra.Command, args []string) {
 	br := entities.NewBreak(duration)
 
 	fmt.Print(br.StartDescription())
-	spent := utils.SetTimerWithContext(duration)
+	spent := app.SetTimerWithContext(duration)
 
 	fmt.Print(constants.ErasingString)
-	fmt.Print(utils.GetTimeSpentString(spent))
+	fmt.Print(app.GetTimeSpentString(spent))
 	fmt.Println(br.FinishDescription())
 	br.Sound()
 }

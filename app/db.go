@@ -42,7 +42,6 @@ func buildPath() (string, error) {
 			panic(err)
 		}
 	}
-	fmt.Println(dirname)
 	return fmt.Sprintf("%s/store.db", dirname), nil
 }
 

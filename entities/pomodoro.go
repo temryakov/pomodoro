@@ -18,13 +18,13 @@ type Pomodoro struct {
 	Repository        domain.Repository
 }
 
-func NewPomodoro(Duration time.Duration /*, repository domain.Repository */) Pomodoro {
+func NewPomodoro(Duration time.Duration, repository domain.Repository) Pomodoro {
 	return Pomodoro{
 		startDescription:  fmt.Sprintf(constants.PomodoroStartDesc, Duration.Minutes(), app.StatusPause, app.StatusFinish),
 		finishDescription: constants.PomodoroFinishDesc,
 		duration:          Duration,
 		sound:             "Submarine", // TODO: put into constants
-		// Repository:        repository,
+		Repository:        repository,
 	}
 }
 

@@ -7,6 +7,7 @@ import (
 	"github.com/temryakov/pomodoro/app"
 	"github.com/temryakov/pomodoro/constants"
 	"github.com/temryakov/pomodoro/entities"
+	"github.com/temryakov/pomodoro/repository"
 
 	"github.com/spf13/cobra"
 )
@@ -22,11 +23,17 @@ func RunPomodoro(cmd *cobra.Command, args []string) {
 
 	timeconfig, _ := cmd.Flags().GetInt("duration")
 
+	r := repository.NewRepository(app.InitDB())
+
 	duration := time.Duration(timeconfig) * time.Minute
-	p := entities.NewPomodoro(duration)
+	p := entities.NewPomodoro(duration, r)
+
+	defer p.Repository.Close()
 
 	fmt.Print(p.StartDescription())
 	spent := app.SetTimerWithContext(duration)
+
+	p.SaveHistory(spent)
 
 	fmt.Print(constants.ErasingString)
 	fmt.Print(app.GetTimeSpentString(spent))

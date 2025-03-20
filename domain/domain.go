@@ -1,17 +1,25 @@
 package domain
 
 import (
+	"time"
+
 	"github.com/syndtr/goleveldb/leveldb"
 )
 
 type History struct {
 	Name     string
 	Duration string
+	Date     time.Time
 }
+
+const (
+	PomodoroRecord = "pomodoro"
+	BreakRecord    = "break"
+)
 
 type Repository interface {
 	Get() ([]History, error)
-	Post(value string) error
+	Post(value, recordName string) error
 	Close()
 }
 

@@ -6,6 +6,7 @@ import (
 
 	"github.com/temryakov/pomodoro/app"
 	"github.com/temryakov/pomodoro/constants"
+	"github.com/temryakov/pomodoro/domain"
 )
 
 type Break struct {
@@ -13,14 +14,16 @@ type Break struct {
 	finishDescription string
 	duration          time.Duration
 	sound             string
+	Repository        domain.Repository
 }
 
-func NewBreak(Duration time.Duration) Break {
+func NewBreak(duration time.Duration, repository domain.Repository) Break {
 	return Break{
-		startDescription:  fmt.Sprintf(constants.BreakStartDesc, Duration.Minutes(), app.StatusPause, app.StatusFinish),
+		startDescription:  fmt.Sprintf(constants.BreakStartDesc, duration.Minutes(), app.StatusPause, app.StatusFinish),
 		finishDescription: constants.BreakFinishDesc,
-		duration:          Duration,
+		duration:          duration,
 		sound:             "Blow", // TODO: put in constants
+		Repository:        repository,
 	}
 }
 
@@ -34,4 +37,23 @@ func (b Break) FinishDescription() string {
 
 func (b Break) Sound() {
 	app.ExecSound(b.sound)
+}
+
+func (b Break) SaveHistory(duration time.Duration) {
+
+	res, err := buildResult(duration)
+	
+	// If got error, just do nothing
+	if err != nil {
+		return
+	}
+	b.Repository.Post(res, domain.BreakRecord)
+}
+
+func (b Break) GetLast() {
+	res, err := b.Repository.Get()
+	if err != nil {
+		return
+	}
+	fmt.Println(res)
 }

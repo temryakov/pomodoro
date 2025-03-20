@@ -7,6 +7,7 @@ import (
 	"github.com/temryakov/pomodoro/app"
 	"github.com/temryakov/pomodoro/constants"
 	"github.com/temryakov/pomodoro/entities"
+	"github.com/temryakov/pomodoro/repository"
 
 	"github.com/spf13/cobra"
 )
@@ -23,8 +24,10 @@ func RunBreak(cmd *cobra.Command, args []string) {
 
 	timeconfig, _ := cmd.Flags().GetInt("duration")
 
+	r := repository.NewRepository(app.InitDB())
+
 	duration := time.Duration(timeconfig) * time.Minute
-	br := entities.NewBreak(duration)
+	br := entities.NewBreak(duration, r)
 
 	fmt.Print(br.StartDescription())
 	spent := app.SetTimerWithContext(duration)

@@ -35,9 +35,9 @@ func (r *Repository) Get() ([]domain.History, error) {
 	return pomodoros, nil
 }
 
-func (r *Repository) Post(value string) error {
+func (r *Repository) Post(value string, recordName string) error {
 	_, err := r.database.Exec("insert into Pomodoro (name, duration) values ($1, $2)",
-		"pomodoro", value)
+		recordName, value)
 	if err != nil {
 		return err
 	}

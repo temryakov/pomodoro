@@ -12,11 +12,6 @@ type History struct {
 	Date     time.Time
 }
 
-const (
-	PomodoroRecord = "pomodoro"
-	BreakRecord    = "break"
-)
-
 type Repository interface {
 	Get() ([]History, error)
 	Post(value, recordName string) error

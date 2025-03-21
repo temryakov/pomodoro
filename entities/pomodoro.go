@@ -47,13 +47,16 @@ func (p Pomodoro) SaveHistory(duration time.Duration) {
 	if err != nil {
 		return
 	}
-	p.Repository.Post(res, domain.PomodoroRecord)
+	err = p.Repository.Post(res, domain.PomodoroRecord)
+	if err != nil {
+		panic(err)
+	}
 }
 
 func (p Pomodoro) GetLast() {
 	res, err := p.Repository.Get()
 	if err != nil {
-		return
+		panic(err)
 	}
-	fmt.Println(res)
+	app.GetHistoryList(res)
 }

@@ -32,13 +32,15 @@ func GetTimeSpentString(spent time.Duration) string {
 
 func GetHistoryList(list []domain.History) {
 
-	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', 0)
+	w := tabwriter.NewWriter(os.Stdout, 0, 0, 5, ' ', 0)
 
-	fmt.Fprintln(w, "Name\tDuration\tDate")
-	fmt.Fprintln(w, "----\t--------\t----")
+	fmt.Fprintln(w, "Name\tDuration\tEnd Date\t")
+	fmt.Fprintln(w, "----\t--------\t---------\t")
 
 	for _, h := range list {
-		fmt.Fprintf(w, "%s\t%s\t%s\n", h.Name, h.Duration, h.Date)
+		date := h.Date.Format("2 Jan, 15:04")
+		fmt.Fprintf(w, "%s\t%s\t%s\t\n", h.Name, h.Duration, date)
 	}
+
 	w.Flush()
 }

@@ -25,6 +25,12 @@ This command encourages you to step away from your work, stretch, or relax for a
 )
 
 const (
+	HistoryUse   = "history"
+	HistoryShort = ""
+	HistoryLong  = ""
+)
+
+const (
 	PomodoroStartDesc  = "pomodoro: 🍅 Pomodoro has been started! it will take %v minutes. Don't forget to take a break.\n(In order to pause pomodoro, press key %d or press %d to finish)\n\n"
 	PomodoroFinishDesc = "\npomodoro: 🍅 Finished! Print 'pomodoro break' to take a break."
 

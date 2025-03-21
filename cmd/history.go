@@ -1,28 +1,30 @@
 /*
 Copyright © 2025 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
+	"github.com/temryakov/pomodoro/app"
+	"github.com/temryakov/pomodoro/constants"
+	"github.com/temryakov/pomodoro/repository"
 )
 
 // historyCmd represents the history command
 var historyCmd = &cobra.Command{
-	Use:   "history",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Use:   constants.HistoryUse,
+	Short: constants.HistoryShort,
+	Long:  constants.HistoryLong,
+	Run:   RunHistory,
+}
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("history called")
-	},
+func RunHistory(cmd *cobra.Command, args []string) {
+	r := repository.NewRepository(app.InitDB())
+	res, err := r.Get()
+	if err != nil {
+		panic(err)
+	}
+	app.GetHistoryList(res)
 }
 
 func init() {

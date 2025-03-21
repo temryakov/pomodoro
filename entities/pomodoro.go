@@ -22,7 +22,7 @@ func NewPomodoro(Duration time.Duration, repository domain.Repository) Pomodoro 
 		startDescription:  fmt.Sprintf(constants.PomodoroStartDesc, Duration.Minutes(), app.StatusPause, app.StatusFinish),
 		finishDescription: constants.PomodoroFinishDesc,
 		duration:          Duration,
-		sound:             "Submarine", // TODO: put into constants
+		sound:             constants.PomodoroSound,
 		Repository:        repository,
 	}
 }
@@ -47,7 +47,7 @@ func (p Pomodoro) SaveHistory(duration time.Duration) {
 	if err != nil {
 		return
 	}
-	err = p.Repository.Post(res, domain.PomodoroRecord)
+	err = p.Repository.Post(res, constants.PomodoroRecord)
 	if err != nil {
 		panic(err)
 	}

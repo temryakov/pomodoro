@@ -22,7 +22,7 @@ func NewBreak(duration time.Duration, repository domain.Repository) Break {
 		startDescription:  fmt.Sprintf(constants.BreakStartDesc, duration.Minutes(), app.StatusPause, app.StatusFinish),
 		finishDescription: constants.BreakFinishDesc,
 		duration:          duration,
-		sound:             "Blow", // TODO: put in constants
+		sound:             constants.BreakSound,
 		Repository:        repository,
 	}
 }
@@ -42,12 +42,12 @@ func (b Break) Sound() {
 func (b Break) SaveHistory(duration time.Duration) {
 
 	res, err := buildResult(duration)
-	
+
 	// If got error, just do nothing
 	if err != nil {
 		return
 	}
-	b.Repository.Post(res, domain.BreakRecord)
+	b.Repository.Post(res, constants.BreakRecord)
 }
 
 func (b Break) GetLast() {

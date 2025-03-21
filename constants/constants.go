@@ -37,3 +37,15 @@ const (
 
 	ErasingString = "\r\t                                    "
 )
+
+// Records name
+const (
+	PomodoroRecord = "🍅 pomodoro:"
+	BreakRecord    = "☕️ break:"
+)
+
+// Sounds name
+const (
+	PomodoroSound = "Submarine"
+	BreakSound    = "Blow"
+)

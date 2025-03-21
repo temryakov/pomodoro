@@ -16,6 +16,7 @@ type Repository interface {
 	Get() ([]History, error)
 	Post(value, recordName string) error
 	Close()
+	Clear() error
 }
 
 type Api interface {

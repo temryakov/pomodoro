@@ -2,6 +2,7 @@ package repository
 
 import (
 	"database/sql"
+	"time"
 
 	"github.com/temryakov/pomodoro/domain"
 )
@@ -26,7 +27,7 @@ func (r *Repository) Get() ([]domain.History, error) {
 
 	for rows.Next() {
 		h := domain.History{}
-		err := rows.Scan(&h.Name, &h.Duration)
+		err := rows.Scan(&h.Name, &h.Duration, &h.Date)
 		if err != nil {
 			return nil, err
 		}
@@ -36,8 +37,8 @@ func (r *Repository) Get() ([]domain.History, error) {
 }
 
 func (r *Repository) Post(value string, recordName string) error {
-	_, err := r.database.Exec("insert into Pomodoro (name, duration) values ($1, $2)",
-		recordName, value)
+	_, err := r.database.Exec("insert into Pomodoro (name, duration, end_time) values ($1, $2, $3)",
+		recordName, value, time.Now())
 	if err != nil {
 		return err
 	}

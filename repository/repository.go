@@ -48,3 +48,11 @@ func (r *Repository) Post(value string, recordName string) error {
 func (r *Repository) Close() {
 	r.database.Close()
 }
+
+func (r *Repository) Clear() error {
+	_, err := r.database.Exec("delete from Pomodoro")
+	if err != nil {
+		return err
+	}
+	return nil
+}

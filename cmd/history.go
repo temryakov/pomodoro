@@ -18,8 +18,14 @@ var historyCmd = &cobra.Command{
 	Run:   RunHistory,
 }
 
+var clear = false
+
 func RunHistory(cmd *cobra.Command, args []string) {
 	r := repository.NewRepository(app.InitDB())
+	if clear {
+		r.Clear()
+		return
+	}
 	res, err := r.Get()
 	if err != nil {
 		panic(err)
@@ -29,6 +35,7 @@ func RunHistory(cmd *cobra.Command, args []string) {
 
 func init() {
 	rootCmd.AddCommand(historyCmd)
+	historyCmd.Flags().BoolVarP(&clear, "clear", "c", false, "Clear the pomodoro history")
 
 	// Here you will define your flags and configuration settings.
 

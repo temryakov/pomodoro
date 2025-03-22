@@ -40,7 +40,7 @@ func (p Pomodoro) Sound() {
 }
 
 func (p Pomodoro) SaveHistory(duration time.Duration) {
-	if duration.Seconds() < 1 {
+	if duration.Minutes() < 1 {
 		return
 	}
 	err := p.Repository.Post(duration, constants.PomodoroRecord)

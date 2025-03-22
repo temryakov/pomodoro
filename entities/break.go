@@ -40,6 +40,9 @@ func (b Break) Sound() {
 }
 
 func (b Break) SaveHistory(duration time.Duration) {
+	if duration.Seconds() < 1 {
+		return
+	}
 	err := b.Repository.Post(duration, constants.BreakRecord)
 	if err != nil {
 		panic(err)

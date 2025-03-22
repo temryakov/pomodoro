@@ -28,7 +28,7 @@ func (r *Repository) Get() ([]domain.History, error) {
 	for rows.Next() {
 		var seconds int64
 		h := domain.History{}
-		err := rows.Scan(&h.Name, seconds, &h.Date)
+		err := rows.Scan(&h.Name, &seconds, &h.Date)
 		if err != nil {
 			return nil, err
 		}

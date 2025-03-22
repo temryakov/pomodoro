@@ -1,5 +1,7 @@
 package constants
 
+import "strings"
+
 const (
 	RootUse   = "pomodoro"
 	RootShort = "🍅 Pomodoro CLI for your work and study"
@@ -40,8 +42,10 @@ const (
 	Countdown        = "\r\t⏳ %2d minutes %2d seconds"
 	FinishingProcess = "\r\t⏳ Finishing..."
 	PausingProcess   = "\r\t💤 Pause."
+)
 
-	ErasingString = "\r\t                                    "
+var (
+	ErasingString = "\r\t" + strings.Repeat(" ", 36)
 )
 
 // Records name

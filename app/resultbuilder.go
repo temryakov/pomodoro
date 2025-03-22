@@ -9,11 +9,23 @@ import (
 	"github.com/temryakov/pomodoro/domain"
 )
 
+const (
+	warnTableIsEmpty = "\npomodoro: 📭 table is empty"
+	timeSpentHeader  = "\r\t⌛️ Total spent time: "
+	warnDone         = "\r\t⌛️ Done! \n"
+)
+
+const (
+	tableHeader       = "\nName\tDuration\tEnd Date"
+	tableSeparator    = "📌 %s\t---\t---\n"
+	tableStringFormat = "%s\t%s\t%s\n"
+)
+
 func GetTimeSpentString(spent time.Duration) string {
 	var (
 		m      = int(spent.Minutes())
 		s      = int(spent.Seconds()) - m*60
-		header = "\r\t⌛️ Total spent time: "
+		header = timeSpentHeader
 		ms     string
 		ss     string
 	)
@@ -25,36 +37,33 @@ func GetTimeSpentString(spent time.Duration) string {
 	}
 
 	if ms == "" && ss == "" {
-		return "\r\t⌛️ Done! \n"
+		return warnDone
 	}
 	return header + ms + ss + "\n"
 }
 
 func GetHistoryList(list []domain.History) {
 	if len(list) == 0 {
-		fmt.Println("\npomodoro: table is empty")
+		fmt.Println(warnTableIsEmpty)
 		return
 	}
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 5, ' ', 0)
 	// Table header
-	fmt.Fprintln(w, "\nName\tDuration\tEnd Date")
+	fmt.Fprintln(w, tableHeader)
 
 	var prevDate string
 
-	for i, h := range list {
+	for _, h := range list {
 		curr := h.Date
-		if i > 4 {
-			curr = curr.Add(time.Hour * 36)
-		}
 		currentDate := curr.Format("2 Jan 2006")
 		// If previous day is not equal than current, make separator
 		if prevDate != currentDate {
-			fmt.Fprintf(w, "📌 %s\t---\t---\n", currentDate)
+			fmt.Fprintf(w, tableSeparator, currentDate)
 			prevDate = currentDate
 		}
 		// Main string with data
 		date := curr.Format("15:04")
-		fmt.Fprintf(w, "%s\t%s\t%s\n", h.Name, GetPomodoroResult(h.Duration), date)
+		fmt.Fprintf(w, tableStringFormat, h.Name, GetPomodoroResult(h.Duration), date)
 	}
 	w.Flush()
 }

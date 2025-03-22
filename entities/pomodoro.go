@@ -40,14 +40,7 @@ func (p Pomodoro) Sound() {
 }
 
 func (p Pomodoro) SaveHistory(duration time.Duration) {
-
-	res, err := buildResult(duration)
-
-	// If got error, just do nothing
-	if err != nil {
-		return
-	}
-	err = p.Repository.Post(res, constants.PomodoroRecord)
+	err := p.Repository.Post(duration, constants.PomodoroRecord)
 	if err != nil {
 		panic(err)
 	}

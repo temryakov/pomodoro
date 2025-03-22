@@ -40,14 +40,10 @@ func (b Break) Sound() {
 }
 
 func (b Break) SaveHistory(duration time.Duration) {
-
-	res, err := buildResult(duration)
-
-	// If got error, just do nothing
+	err := b.Repository.Post(duration, constants.BreakRecord)
 	if err != nil {
-		return
+		panic(err)
 	}
-	b.Repository.Post(res, constants.BreakRecord)
 }
 
 func (b Break) GetLast() {

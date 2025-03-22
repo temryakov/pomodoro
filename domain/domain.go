@@ -8,13 +8,13 @@ import (
 
 type History struct {
 	Name     string
-	Duration string
+	Duration time.Duration
 	Date     time.Time
 }
 
 type Repository interface {
 	Get() ([]History, error)
-	Post(value, recordName string) error
+	Post(duration time.Duration, recordName string) error
 	Close()
 	Clear() error
 }

@@ -26,19 +26,21 @@ func (r *Repository) Get() ([]domain.History, error) {
 	pomodoros := []domain.History{}
 
 	for rows.Next() {
+		var seconds int64
 		h := domain.History{}
-		err := rows.Scan(&h.Name, &h.Duration, &h.Date)
+		err := rows.Scan(&h.Name, seconds, &h.Date)
 		if err != nil {
 			return nil, err
 		}
+		h.Duration = time.Duration(seconds) * time.Second
 		pomodoros = append(pomodoros, h)
 	}
 	return pomodoros, nil
 }
 
-func (r *Repository) Post(value string, recordName string) error {
+func (r *Repository) Post(duration time.Duration, recordName string) error {
 	_, err := r.database.Exec("insert into Pomodoro (name, duration, end_time) values ($1, $2, $3)",
-		recordName, value, time.Now())
+		recordName, int(duration.Seconds()), time.Now())
 	if err != nil {
 		return err
 	}

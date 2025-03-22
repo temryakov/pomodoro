@@ -32,6 +32,8 @@ func RunBreak(cmd *cobra.Command, args []string) {
 	fmt.Print(br.StartDescription())
 	spent := app.SetTimerWithContext(duration)
 
+	br.SaveHistory(spent)
+
 	fmt.Print(constants.ErasingString)
 	fmt.Print(app.GetTimeSpentString(spent))
 	fmt.Println(br.FinishDescription())

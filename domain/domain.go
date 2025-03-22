@@ -19,10 +19,6 @@ type Repository interface {
 	Clear() error
 }
 
-type Api interface {
-	Send(word string) (string, error)
-}
-
 var (
 	ErrNotFound = leveldb.ErrNotFound
 )

@@ -47,8 +47,8 @@ func buildPath() (string, error) {
 
 func createTable(db *sql.DB) (sql.Result, error) {
 	sql := `CREATE TABLE IF NOT EXISTS Pomodoro (
-    name     TEXT NOT NULL,
-    duration TEXT NOT NULL,
+    name     VARCHAR NOT NULL,
+    duration INTEGER NOT NULL,
     end_time DATETIME
 );`
 

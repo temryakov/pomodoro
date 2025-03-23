@@ -50,8 +50,8 @@ var (
 
 // Records name
 const (
-	PomodoroRecord = "🍅 pomodoro:"
-	BreakRecord    = "☕️ break:"
+	PomodoroRecord = "pomodoro:"
+	BreakRecord    = "break:"
 )
 
 // Sounds name

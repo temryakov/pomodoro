@@ -10,6 +10,8 @@ Pomodoro CLI is a command-line utility for time management using the Pomodoro Te
 
 • Manage breaks.
 
+• Manage history of last pomodoros and breaks.
+
 A simple and convenient tool to boost your work efficiency!
 
 ```bash
@@ -20,6 +22,9 @@ pomodoro start -s, --set int # Default set time of pomodoro (default 25)
 pomodoro break
 pomodoro break  -d, --duration int # Time duration of break (default 5)
 pomodoro break -s, --set int # Default set time of break (default 5)
+
+pomodoro history # Get history list of pomodoros and breaks
+pomodoro history -c, --clear # Clear history list
 
 pomodoro --help
 ```

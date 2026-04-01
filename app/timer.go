@@ -18,9 +18,6 @@ type Timer struct {
 }
 
 func SetTimerWithContext(duration time.Duration) time.Duration {
-	// A ittle workaround to fix lost second in total spent time
-	duration += time.Second
-
 	timer := &Timer{
 		Finish:   make(chan struct{}),
 		Pause:    make(chan struct{}),
@@ -37,23 +34,33 @@ func SetTimerWithContext(duration time.Duration) time.Duration {
 func (t *Timer) SetTimer() time.Duration {
 	// Is pause right now?
 	var pause bool
+	var pausedAt time.Time
 
-	for range time.NewTicker(1 * time.Millisecond).C {
+	start := time.Now()
+	originalDuration := t.Duration
+
+	for range time.NewTicker(100 * time.Millisecond).C {
 		select {
 		case <-t.Pause:
 			pause = true
+			pausedAt = time.Now()
 		case <-t.Finish:
 			return t.Duration
 		default:
 			if pause {
 				<-t.Pause
+				// Shift start forward by the time we were paused
+				start = start.Add(time.Since(pausedAt))
 				pause = false
 			}
-			tr := getTimeRemaining(t.Duration)
+			elapsed := time.Since(start)
+			remaining := originalDuration - elapsed
+			t.Duration = remaining
+			tr := getTimeRemaining(remaining)
 			if tr.total <= 0 {
-				return t.Duration
+				t.Duration = 0
+				return 0
 			}
-			t.Duration -= time.Millisecond
 			fmt.Printf(constants.Countdown, tr.minutes, tr.seconds)
 		}
 	}
